@@ -3,19 +3,19 @@ A simple web app to help me learn more about angular.
 The app lets you write your own questions and answer your own questions(feeling like Socrates yet?)
 
 # How to run
-1) Clone the repository.
-2) Install npm and bower dependencies using:
+1. Clone the repository.
+2. Install npm and bower dependencies using:
 ~~~~
 npm install // The 'postinstall' script is configured to install bower dependencies
 ~~~~
-3) By default, the web page will be served locally on port 8080. To start,
+3. By default, the web page will be served locally on port 8080. To start,
 ~~~~
 npm start
 ~~~~
 
 # How to test
 ## Unit-testing
-Jasmine is used as the BDD testing framework, and Karma runs them.
+Jasmine is used as the BDD testing framework, and Karma runs them. To test,
 ~~~~
 npm test
 ~~~~
