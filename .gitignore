@@ -1,2 +1,6 @@
+# Ignore dependency folders
 node_modules/
+bower_components/
+
+# Ignore developer scripts
 scripts/
