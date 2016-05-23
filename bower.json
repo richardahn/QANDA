@@ -1,0 +1,18 @@
+{
+  "name": "qanda",
+  "description": "A simple Q&A web app.",
+  "main": "index.js",
+  "authors": [
+    "Richard Ahn"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "angular",
+    "node"
+  ],
+  "homepage": "https://github.com/richardahn/QANDA",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.5"
+  }
+}

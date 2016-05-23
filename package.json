@@ -1,0 +1,38 @@
+{
+  "name": "qanda",
+  "version": "1.0.0",
+  "description": "A simple Q&A web app.",
+  "author": "Richard Ahn",
+  "main": "index.js",
+  "keywords": [
+    "angular",
+    "node"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardahn/QANDA.git"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+
+    "start": "node node_modules/http-server/bin/http-server -a 0.0.0.0 -p 8080",
+
+    "test": "node node_modules/karma/bin/karma start karma.conf.js",
+
+    "preprotractor": "node node_modules/protractor/bin/webdriver-manager update",
+    "protractor": "node node_modules/protractor/bin/protractor protractor.conf.js"
+  },
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "http-server": "^0.9.0",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "protractor": "^3.3.0"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardahn/QANDA/issues"
+  },
+  "homepage": "https://github.com/richardahn/QANDA#readme"
+}
