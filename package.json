@@ -13,7 +13,7 @@
     "url": "git+https://github.com/richardahn/QANDA.git"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "node node_modules/bower/bin/bower install",
 
     "start": "node node_modules/http-server/bin/http-server -a 0.0.0.0 -p 8080",
 
