@@ -1,0 +1,73 @@
+/*Note: I place a lot of commented borders for debugging purposes, you can ignore those*/
+/*Global properties*/
+@font-face {
+  font-family: Stellar-Light;
+  src: url('../fonts/Stellar-light.otf') format('opentype');
+}
+body {
+  /*border: 1px solid red;*/
+  font-family: Stellar-Light;
+  letter-spacing: 0.2em;
+  background-color: white;
+  color: darkblue;
+}
+
+/*Divider properties*/
+.divider {
+  width: 70%;
+  margin: 0 auto;
+  border-top: 1px solid darkblue;
+}
+
+/*
+  To center a div:
+    1) Set a width and set margin to 0 auto
+      - What if I want my width to be just big enough to contain contents? inline-block
+    2) Set display to inline-block and set parent to text-align center
+      - What if I don't want my div to be inline? Turns out theres another width value called max-content
+    3) Set width to max-content and set margin to 0 auto
+*/
+/*Header properties*/
+#main-header {
+  /*border: 1px solid blue;*/
+  padding: 10px 0 0 0;
+}
+.header-title {
+  /*border: 1px solid blue;*/
+  font-size: 30px;
+  width: max-content;
+  margin: 0 auto 10px auto;
+}
+.header-title-trail {
+  /*border: 1px solid blue;*/
+  font-size: 18px;
+  width: max-content;
+  margin: 0 auto 20px auto;
+}
+
+/*Main content properties*/
+#main-body {
+  /*border: 1px solid blue;*/
+  margin: 20px 0 0 0;
+}
+.new-qa-form {
+  /*border: 1px solid blue;*/
+  width: 50%;
+  margin: 0 auto;
+}
+.question-input {
+  margin: 0 0 3px 0;
+}
+.answer-input {
+  margin: 0 0 3px 0;
+}
+.new-qa-button {
+  /*
+  // For some reason, this isn't centering the button, so I instead
+  // wrap the button inside of a div with the bootstrap class, text-center.
+  width: max-content;
+  margin: 0 auto;
+
+  Well, that didn't work, so I gave the button the center-block class instead and it worked
+  */
+}

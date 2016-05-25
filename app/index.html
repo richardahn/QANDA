@@ -1,13 +1,53 @@
 <!DOCTYPE html>
-<html ng-app>
-  <!-- Head -->
+<html lang="en" ng-app>
   <head>
-    <title>QANDA</title>
-  </head>
 
-  <!-- Body -->
+    <!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Allows proper rendering and touch zooming for mobile devices -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+    <title>QANDA</title>
+
+  </head>
   <body>
-    <p>Hello, World!</p>
+
+    <!-- Header -->
+    <header id="main-header">
+      <div class="header-title">QANDA</div>
+      <!-- hidden-sm-down makes this element invisible for devices sized small and under -->
+      <div class="hidden-sm-down header-title-trail">Ask and answer your own questions</div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Body -->
+    <main class="container-fluid" id="main-body">
+      <!-- Question prompt -->
+      <div class="row">
+        <form class="form-group new-qa-form">
+          <input type="text" class="form-control question-input" placeholder="Question"></input>
+          <textarea class="form-control answer-input" rows="3" placeholder="Answer"></textarea>
+          <button type="button" class="btn btn-primary-outline new-qa-button center-block">Enter</button>
+        </form>
+      </div>
+      <!-- Question title / Search bar / Filter bar -->
+      <div class="row">
+      </div>
+      <!-- List of questions -->
+      <div class="row">
+        <!-- Allow user to change question / answer -->
+      </div>
+    </main>
+
+    <!-- Bootstrap & Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- Auto refresh atom plugin, remove later -->
+    <script src="http://localhost:35729/livereload.js"></script>
+
   </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 </html>
