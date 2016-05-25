@@ -2,6 +2,9 @@
 A simple Angular 1.x web app to help me learn more about Angular.
 The app lets you write your own questions and answer your own questions(feeling like Socrates yet?).
 
+# Dependencies
+npm is needed to install dependencies.
+
 # How to run
 1.) Clone the repository.  
 
