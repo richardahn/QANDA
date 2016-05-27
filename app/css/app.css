@@ -28,7 +28,7 @@ body {
     3) Set width to max-content and set margin to 0 auto
 */
 /*Header properties*/
-#main-header {
+header {
   /*border: 1px solid blue;*/
   padding: 10px 0 0 0;
 }
@@ -46,10 +46,11 @@ body {
 }
 
 /*Main content properties*/
-#main-body {
+main {
   /*border: 1px solid blue;*/
   margin: 20px 0 0 0;
 }
+    /*Question form properties*/
 .new-qa-form {
   /*border: 1px solid blue;*/
   width: 50%;
@@ -70,4 +71,27 @@ body {
 
   Well, that didn't work, so I gave the button the center-block class instead and it worked
   */
+}
+    /*Question list properties*/
+.qa-list-header {
+  text-align: center;
+}
+
+.qa-list-title {
+  /*
+    //Remember that spans(inline-blocks) can't be centered with //width+margin. Use text-align: center instead
+
+  width: max-content;
+  margin: 0 auto;
+  */
+}
+.qa-list {
+  width: max-content;
+  margin: 0 auto;
+}
+.qa-list-empty {
+  
+}
+.qa-list-item {
+  margin: 10px 0 10px 0;
 }

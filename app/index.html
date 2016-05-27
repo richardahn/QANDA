@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en">
   <head>
 
     <!-- Meta tags -->
@@ -12,10 +12,11 @@
     <title>QANDA</title>
 
   </head>
-  <body>
+  <!-- ng-strict-di for best practice -->
+  <body ng-app="qandaApp" ng-strict-di>
 
     <!-- Header -->
-    <header id="main-header">
+    <header>
       <div class="header-title">QANDA</div>
       <!-- hidden-sm-down makes this element invisible for devices sized small and under -->
       <div class="hidden-sm-down header-title-trail">Ask and answer your own questions</div>
@@ -24,30 +25,52 @@
     <div class="divider"></div>
 
     <!-- Body -->
-    <main class="container-fluid" id="main-body">
+    <main class="container-fluid" ng-controller="qandaController">
       <!-- Question prompt -->
-      <div class="row">
-        <form class="form-group new-qa-form">
-          <input type="text" class="form-control question-input" placeholder="Question"></input>
-          <textarea class="form-control answer-input" rows="3" placeholder="Answer"></textarea>
-          <button type="button" class="btn btn-primary-outline new-qa-button center-block">Enter</button>
+      <form class="form-group new-qa-form" ng-submit="newQanda()">
+        <input type="text" class="form-control question-input" placeholder="Question" ng-model="qanda.newQuestion"></input>
+        <textarea class="form-control answer-input" rows="3" placeholder="Answer" ng-model="qanda.newAnswer"></textarea>
+        <button type="submit" class="btn btn-primary-outline new-qa-button center-block" value="Submit">Enter</button>
+      </form>
+      <!-- Question title / Search bar / Filter bar -->
+      <div class="qa-list-header">
+        <!-- I use the bootstrap inline form to keep everything on one line -->
+        <form class="form-inline">
+          <span class="qa-list-title">List of Q&ampA's</span>
+          <!-- The dot in qanda.query isn't necessary here but putting them in is a good habit to get into to avoid breaking scope inheritance -->
+          <input type="search" ng-model="qanda.query" class="form-control" placeholder="Search by..."/>
+          <select ng-model="qanda.ordering">
+            <option value="question">A-Z</option>
+            <option value="-question">Z-A</option>
+          </select>
         </form>
       </div>
-      <!-- Question title / Search bar / Filter bar -->
-      <div class="row">
-      </div>
       <!-- List of questions -->
-      <div class="row">
+      <div class="qa-list">
+        <div ng-if="qas.length == 0" class="qa-list-empty" ng-bind-template="No Q&ampA's...">
+        </div>
+        <div ng-repeat="qa in qas | filter : qanda.query | orderBy : qanda.ordering" class="qa-list-item" ng-if="qas.length != 0">
+          <div>
+            <!-- Kept separate to make protractor tests a bit more sensible -->
+            <span ng-bind-template="Question: "></span>
+            <span ng-bind-template="{{qa.question}}"></span>
+          </div>
+          <div>
+            <span ng-bind-template="Answer: "></span>
+            <span ng-bind-template="{{qa.answer}}"></span>
+          </div>
+        </div>
         <!-- Allow user to change question / answer -->
       </div>
     </main>
 
     <!-- Bootstrap & Angular -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="js/controllers.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script> <!-- Need this; bootstrap complains if it doesn't have tether -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
     <!-- Auto refresh atom plugin, remove later -->
     <script src="http://localhost:35729/livereload.js"></script>
-
   </body>
 </html>
