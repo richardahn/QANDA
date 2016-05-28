@@ -5,6 +5,7 @@ describe('Testing the home page of my web app: ', function() {
     var qandaList = element.all(by.repeater('qa in qas'));
     var qandaListQuestions = element.all(by.repeater('qa in qas').column('qa.question'));
 
+    // Reload browser before each test
     beforeEach(function() {
       browser.get('app/index.html');
     });

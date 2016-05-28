@@ -2,6 +2,7 @@
 
 describe('Testing the QAController', function() {
   var ctrl, scope;
+  // Reload the module / reset the controller for each test
   beforeEach(module('qandaApp'));
   beforeEach(inject(function($controller) {
     scope = {};
