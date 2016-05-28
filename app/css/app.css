@@ -1,5 +1,9 @@
-/*Note: I place a lot of commented borders for debugging purposes, you can ignore those*/
-/*Global properties*/
+/*
+Note: I place a lot of comments for debugging purposes, you can ignore those
+The commented borders are also for debugging as well
+*/
+
+/*============= Global properties =============*/
 @font-face {
   font-family: Stellar-Light;
   src: url('../fonts/Stellar-light.otf') format('opentype');
@@ -11,12 +15,9 @@ body {
   background-color: white;
   color: darkblue;
 }
-
-/*Divider properties*/
-.divider {
-  width: 70%;
-  margin: 0 auto;
-  border-top: 1px solid darkblue;
+.ng-cloak {
+  /*Necessary for cloaking*/
+  display: none !important;
 }
 
 /*
@@ -27,71 +28,138 @@ body {
       - What if I don't want my div to be inline? Turns out theres another width value called max-content
     3) Set width to max-content and set margin to 0 auto
 */
-/*Header properties*/
+/*============= Header properties =============*/
 header {
   /*border: 1px solid blue;*/
-  padding: 10px 0 0 0;
+  margin: 10px 0;
 }
 .header-title {
   /*border: 1px solid blue;*/
   font-size: 30px;
   width: max-content;
-  margin: 0 auto 10px auto;
+  margin: 0 auto;
 }
 .header-title-trail {
   /*border: 1px solid blue;*/
   font-size: 18px;
   width: max-content;
-  margin: 0 auto 20px auto;
+  margin: 0 auto;
 }
 
-/*Main content properties*/
+/*============= Main content properties =============*/
 main {
   /*border: 1px solid blue;*/
-  margin: 20px 0 0 0;
+  margin: 20px 0;
 }
-    /*Question form properties*/
+/*___ Question form properties ___*/
 .new-qa-form {
   /*border: 1px solid blue;*/
   width: 50%;
   margin: 0 auto;
 }
 .question-input {
-  margin: 0 0 3px 0;
+  margin-bottom: 3px;
 }
 .answer-input {
-  margin: 0 0 3px 0;
+  margin-bottom: 3px;
 }
 .new-qa-button {
   /*
-  // For some reason, this isn't centering the button, so I instead
-  // wrap the button inside of a div with the bootstrap class, text-center.
+  For some reason, this isn't centering the button, so I instead
+  wrap the button inside of a div with the bootstrap class, text-center.
+
   width: max-content;
   margin: 0 auto;
 
-  Well, that didn't work, so I gave the button the center-block class instead and it worked
+  Well, that didn't work, so I'm assuming that the button is in-line.(remember for horiz centering inline, use text-align: center on parent)
+  I found out that bootstrap has a center-block class, so I used that instead.
   */
 }
-    /*Question list properties*/
+/*___ Question list properties ___*/
 .qa-list-header {
   text-align: center;
+  width: max-content;
+  margin: 30px auto 0 auto;
 }
-
 .qa-list-title {
   /*
-    //Remember that spans(inline-blocks) can't be centered with //width+margin. Use text-align: center instead
-
-  width: max-content;
-  margin: 0 auto;
+    This is used on a span, so I can't use width / margin, I have to use text-align: center
   */
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+/*
+Two ways of centering a bunch of elements in a row
+
+1) Use float: left on all of the elements except the last. Set % widths that add up to 100, and they should be centered. Otherwise,
+there will be a gap(s) in the middle.
+
+2) (This option is better because it allows for different sized widths that don't have to add up to 100%)
+You could have fixed / % widths and the parent text-align: center
+If you have divs, just use inline-block. However, using inline-blocks has the inconvenient consequence of those pesky spaces
+in between divs. There are multiple ways of getting rid of those(https://css-tricks.com/fighting-the-space-between-inline-block-elements/).
+I chose to put comments in the html
+*/
+.qa-list-search {
+  -webkit-box-sizing: border-box;
+  /* For playing around with the float method
+  width: 65%;
+  float: left;
+  */
+  width: 65%;
+  display: inline-block;
+  padding: 0;
+  /*Since bootstrap rounds their edges on inputs*/
+  /*I set the right side radius to be 0 and the style to be none to merge with the
+  second input box*/
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-style: none;
+  /*What does !important do? it doesn't allow this property to be overriden(unless the overrider sets their property to !important)
+  and when should you use it? You should use it only when you want an element to maintain its characteristics.*/
+  height: 33px;
+}
+.qa-list-ordering {
+  -webkit-box-sizing: border-box;
+  /* For playing around with the float method
+  width: 10%;
+  float: right;
+  Dont forget if the width is too high, the last div'll drop down */
+  width: 35%;
+  display: inline-block;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  height: 33px; /* Set this equal to qa-list-search height */
 }
 .qa-list {
-  width: max-content;
+  width: 100%;
   margin: 0 auto;
+  list-style-type: none; /* To get rid of bullet points */
+  padding-left: 0; /*To get rid of automatic ul left padding*/
 }
 .qa-list-empty {
-  
+
 }
 .qa-list-item {
-  margin: 10px 0 10px 0;
+
+}
+/*
+To get a centered div, div1, and a div positioned relative to that, div2
+you need to set both divs to be inline-block. Center div1 by setting the container
+to have text-align: center(Set the children to text-align: left if necessary).
+Make div2 position: relative. Don't give div2 a width / height because that
+messes up the centering calculations. If you want div2 to be aligned to the top
+of div1, then set vertical-align: top.
+*/
+.qa-list-item-qanda {
+
+}
+.qa-list-item-question {
+
+}
+.qa-list-item-answer {
+
+}
+.qa-list-item-edit {
+
 }

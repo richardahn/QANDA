@@ -1,7 +1,7 @@
-'use strict' // Helps me write good js
+'use strict'; // Helps me write good js
 
 // Load module
-var qandaApp = angular.module('qandaApp', []);
+var qandaApp = angular.module('qandaApp');
 
 // Register controllers
 qandaApp.controller('qandaController', ['$scope', function($scope) {
@@ -34,4 +34,11 @@ qandaApp.controller('qandaController', ['$scope', function($scope) {
     $scope.qanda.newQuestion = '';
     $scope.qanda.newAnswer = '';
   };
+
+  $scope.hoverIn = function() {
+    this.hoverEdit = true;
+  };
+  $scope.hoverOut = function() {
+    this.hoverEdit = false;
+  }
 }]);
