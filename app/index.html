@@ -9,6 +9,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
     <link rel="stylesheet" href="css/app.css" type="text/css">
+    <link rel="stylesheet" href="css/icomoon.css" type="text/css">
+    <style>[ng-cloak] { display: none; }</style> <!-- Necessary for cloaking -->
     <title>QANDA</title>
 
   </head>
@@ -16,10 +18,11 @@
   <body ng-app="qandaApp" ng-strict-di>
 
     <!-- Header -->
+    <!-- TODO: I want a fixed header with shadowing at the bottom of the header maybe. I want a hamburger menu on the top right -->
     <header>
-      <div class="header-title">QANDA</div>
+      <h1>QANDA</h1>
       <!-- hidden-sm-down makes this element invisible for devices sized small and under, Bootstrap is very good at showing/hiding stuff for differently sized screens, unlike Angular. Angular is more suitable for event-based action -->
-      <div class="hidden-sm-down header-title-trail">Ask and answer your own questions</div>
+      <h5 class="hidden-sm-down">Ask and answer your own questions</h5>
     </header>
 
     <!-- Body -->
@@ -28,45 +31,55 @@
       <!-- Should I use ngSubmit(requiring form) or ngClick(just button) here? -->
       <!-- Btw ngSubmit prevents the form from having its intended behavior of sending a request to the server when ngSubmit is used(unless you set an action attribute) -->
       <!-- And also, if you need to have more than one button within a form, for example a button to reset the form, you need to set the reset button to have type="button" because by default it will have type="submit" to submit the form. -->
-      <form class="form-group new-qa-form" ng-submit="newQanda()">
-        <input type="text" class="form-control question-input" placeholder="Enter a new question..." ng-model="qanda.newQuestion"></input>
-        <textarea class="form-control answer-input" rows="3" placeholder="Enter a new answer..." ng-model="qanda.newAnswer"></textarea>
-        <button type="submit" class="btn btn-primary new-qa-button center-block">Enter a new Q&ampA</button>
+      <!-- By giving this form a name, you are creating a FormController that has an object of the set name that tells you the state of the form -->
+      <form id="qanda-form" name="form" class="form-group" ng-submit="addQanda()">
+        <input type="text" class="form-control" placeholder="Enter a new question..." ng-model="newQuestion" required></input>
+        <textarea class="form-control" rows="3" placeholder="Enter a new answer..." ng-model="newAnswer"></textarea>
+        <!-- I can use ng-disabled but the issue is that my button will be enabled for a sec and then become disabled. To fix this, I use ng-cloak -->
+        <!-- Alternatively, instead of using ng-disabled, I can use the bootstrap defined disabled class along with ng-class to set a default disabled state to this button. Otherwise, the button will blink as enabled for a sec. -->
+        <button id="submit-button" type="submit" class="btn btn-secondary center-block disabled" ng-class="{disabled: form.$invalid}">Enter</button>
+        <button id="clear-button" type="button" class="btn btn-secondary center-block" ng-click="clearContents()">Reset</button>
       </form>
 
       <!-- List title / Search bar / Filter bar -->
-      <div class="qa-list-header">
+      <section id="list-header">
         <!-- Again, I have the option to use a form, but it's just sensible to use ngClick -->
-        <div class="qa-list-title">List of Q&ampA's</div>
-        <!-- The dot in qanda.query isn't necessary here but putting them in is a good habit to get into to avoid breaking scope inheritance -->
-        <input type="search" ng-model="qanda.query" class="form-control qa-list-search" placeholder="Search by..."/><!-- This is here to get rid of the display: inline-block space
-     --><select ng-model="qanda.ordering" class="form-control qa-list-ordering">
+        <span>List of Q&ampA's</span>
+        <!-- I should create some kind of Filter component since the way this is designed only makes sense in a bundle -->
+        <input id="list-search" type="search" ng-model="query" class="form-control" placeholder="Search..."/><!-- This is here to get rid of the display: inline-block space
+     --><select id="list-ordering" ng-model="ordering" class="form-control">
           <option value="question">A-Z</option>
           <option value="-question">Z-A</option>
         </select>
-      </div>
+      </section>
+
       <!-- List of questions -->
-      // TODO FOR tomorrow, and also look at angular components n stuff
-      <ul class="qa-list">
-        <li ng-if="qas.length == 0" class="qa-list-empty" ng-bind-template="No Q&ampA's..."></li>
-        <li ng-repeat="qa in qas | filter : qanda.query | orderBy : qanda.ordering" class="qa-list-item" ng-if="qas.length != 0" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-          <div class="qa-list-item-qanda">
-            <div class="qa-list-item-question wordwrap"> // Fix wordwrap
+      <ul id="list">
+        <!-- List item -->
+        <p ng-if="qas.length == 0" id="list-empty" ng-bind-template="No Q&A's have been made"></p>
+        <li ng-if="qas.length != 0" ng-repeat="qa in qas | filter : query | orderBy : ordering" ng-class="{'unanswered-qanda': qa.unanswered()}" ng-cloak>
+          <div class="qanda-wrapper">
+            <div>
               <!-- Kept separate to make protractor tests a bit more sensible -->
-              <span ng-bind-template="Question: "></span>
-              <span ng-bind-template="{{qa.question}}" class="wordwrap"></span>
+              <b ng-bind-template="Question: "></b>
+              <p ng-bind-template="{{qa.question}}"></p>
             </div>
-            <div class="qa-list-item-answer wordwrap">
-              <span ng-bind-template="Answer: "></span>
-              <span ng-bind-template="{{qa.answer}}" class="wordwrap"></span>
+            <div ng-hide="qa.unanswered()">
+              <b ng-bind-template="Answer: "></b>
+              <p ng-bind-template="{{qa.answer}}"></p>
+            </div>
+            <div ng-show="qa.unanswered()">
+              <b ng-bind-template="Unanswered"></b>
             </div>
           </div>
-          <div class="qa-list-item-edit" ng-if="hoverEdit">
-            <button type="submit" class="btn btn-primary ng-cloak" value="Submit">Edit</button>
-            <button type="submit" class="btn btn-secondary ng-cloak" value="Submit">Delete</button>
-          </div>
+          <!-- For simple things like hovers, don't use ng-show, use css(As a rule, if you can
+           use css over angular, do it) -->
+          <a class="qanda-delete icon icon-cross" href="" ng-click"deleteQanda(qa)"></a>
         </li>
       </ul>
+      <!-- Footer -->
+      <section>
+      </section>
     </main>
 
     <!-- Bootstrap & Angular -->
@@ -76,7 +89,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script> <!-- Need this; bootstrap complains if it doesn't have tether -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
-    <!-- Auto refresh atom plugin, remove later -->
+    <!-- Auto refresh atom plugin -->
     <script src="http://localhost:35729/livereload.js"></script>
   </body>
 </html>

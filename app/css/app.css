@@ -12,12 +12,15 @@ body {
   /*border: 1px solid red;*/
   font-family: Stellar-Light;
   letter-spacing: 0.2em;
-  background-color: white;
-  color: darkblue;
+  background-color: #36f;
+  color: white;
 }
-.ng-cloak {
-  /*Necessary for cloaking*/
-  display: none !important;
+/*Changing a bit of bootstrap to suit my style*/
+.btn {
+  border: none;
+}
+.form-control {
+  border: none;
 }
 
 /*
@@ -33,60 +36,47 @@ header {
   /*border: 1px solid blue;*/
   margin: 10px 0;
 }
-.header-title {
-  /*border: 1px solid blue;*/
-  font-size: 30px;
+header > * {
   width: max-content;
   margin: 0 auto;
-}
-.header-title-trail {
-  /*border: 1px solid blue;*/
-  font-size: 18px;
-  width: max-content;
-  margin: 0 auto;
+  padding-bottom: 5px;
 }
 
 /*============= Main content properties =============*/
 main {
   /*border: 1px solid blue;*/
-  margin: 20px 0;
+  margin: 10px 0;
 }
-/*___ Question form properties ___*/
-.new-qa-form {
+/*___ Qanda form properties ___*/
+#qanda-form {
   /*border: 1px solid blue;*/
   width: 50%;
+  max-width: 600px;
+  min-width: 280px;
   margin: 0 auto;
 }
-.question-input {
+#qanda-form > * {
   margin-bottom: 3px;
 }
-.answer-input {
-  margin-bottom: 3px;
+#clear-button {
+  float: right;
+  margin-right: 3px;
 }
-.new-qa-button {
-  /*
-  For some reason, this isn't centering the button, so I instead
-  wrap the button inside of a div with the bootstrap class, text-center.
-
-  width: max-content;
-  margin: 0 auto;
-
-  Well, that didn't work, so I'm assuming that the button is in-line.(remember for horiz centering inline, use text-align: center on parent)
-  I found out that bootstrap has a center-block class, so I used that instead.
-  */
+#submit-button {
+  float: right;
 }
-/*___ Question list properties ___*/
-.qa-list-header {
+
+/*___ Qanda list header properties ___*/
+#list-header {
   text-align: center;
   width: max-content;
-  margin: 30px auto 0 auto;
+  margin: 70px auto 20px auto;
 }
-.qa-list-title {
-  /*
-    This is used on a span, so I can't use width / margin, I have to use text-align: center
-  */
+#list-header > span {
+  /*This is used on a span, so I can't use width / margin, I have to use text-align: center*/
   font-size: 18px;
   margin-bottom: 10px;
+  display: block;
 }
 /*
 Two ways of centering a bunch of elements in a row
@@ -100,7 +90,7 @@ If you have divs, just use inline-block. However, using inline-blocks has the in
 in between divs. There are multiple ways of getting rid of those(https://css-tricks.com/fighting-the-space-between-inline-block-elements/).
 I chose to put comments in the html
 */
-.qa-list-search {
+#list-search {
   -webkit-box-sizing: border-box;
   /* For playing around with the float method
   width: 65%;
@@ -108,7 +98,8 @@ I chose to put comments in the html
   */
   width: 65%;
   display: inline-block;
-  padding: 0;
+  padding-left: 10px;
+
   /*Since bootstrap rounds their edges on inputs*/
   /*I set the right side radius to be 0 and the style to be none to merge with the
   second input box*/
@@ -117,9 +108,9 @@ I chose to put comments in the html
   border-right-style: none;
   /*What does !important do? it doesn't allow this property to be overriden(unless the overrider sets their property to !important)
   and when should you use it? You should use it only when you want an element to maintain its characteristics.*/
-  height: 33px;
+  height: 33px; /* When the heights of search / ordering are low enough, they get misaligned when you zoom out far enough */
 }
-.qa-list-ordering {
+#list-ordering {
   -webkit-box-sizing: border-box;
   /* For playing around with the float method
   width: 10%;
@@ -131,17 +122,28 @@ I chose to put comments in the html
   border-bottom-left-radius: 0;
   height: 33px; /* Set this equal to qa-list-search height */
 }
-.qa-list {
+/*___ Qanda list properties ___*/
+#list {
   width: 100%;
   margin: 0 auto;
   list-style-type: none; /* To get rid of bullet points */
   padding-left: 0; /*To get rid of automatic ul left padding*/
+  font-size: 14px;
+  min-width: 280px;
+  max-width: 700px;
 }
-.qa-list-empty {
-
+#list-empty {
+  text-align: center;
 }
-.qa-list-item {
-
+#list > li {
+  margin-bottom: 20px;
+  position: relative;
+  background-color: #4770eb;
+  border-radius: 30px;
+  padding: 10px 0;
+}
+#list > li:hover .qanda-edit, #list > li:hover .qanda-delete {
+  display: block;
 }
 /*
 To get a centered div, div1, and a div positioned relative to that, div2
@@ -151,15 +153,41 @@ Make div2 position: relative. Don't give div2 a width / height because that
 messes up the centering calculations. If you want div2 to be aligned to the top
 of div1, then set vertical-align: top.
 */
-.qa-list-item-qanda {
+/*
+Fill rest of space[http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width]
+doesn't work, idk why.
 
+In other websites, the ng-show'n element is placed absolutely to the right. That's
+another solution. Remember that the parent must have relative positioning.
+Also, remember that .qa-list-item-qanda should have padding to the right to fit the X mark
+
+If I want two divs as a unit centered, with fixed space on the right
+, where the first div takes up the rest of the space, then i don't set width on first,
+set margin-right, and absolutely place the second in the first's margin space
+*/
+.qanda-wrapper {
+  box-sizing: border-box;
+  margin-right: 60px;
+  margin-left: 30px;
 }
-.qa-list-item-question {
-
+#list > li.unanswered-qanda {
+  background-color: #ff4d94;
 }
-.qa-list-item-answer {
-
+.qanda-delete {
+  display: none;
+  width: 60px;
+  position: absolute;
+  font-size: 25px;
+  height: 100%;
+  top: 15px;
+  right: 0;
+  color: #36f;
+  text-align: center;
 }
-.qa-list-item-edit {
-
+.qanda-edit:hover, .qanda-delete:hover,
+.qanda-edit:visited, .qanda-delete:visited,
+.qanda-edit:active, .qanda-delete:active,
+.qanda-edit:focus, .qanda-delete:focus {
+  text-decoration: none;
+  color: #36f;
 }

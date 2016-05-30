@@ -6,39 +6,41 @@ var qandaApp = angular.module('qandaApp');
 // Register controllers
 qandaApp.controller('qandaController', ['$scope', function($scope) {
   // Set default question list
-  $scope.qas = [
-    {
-      question: 'Question 1',
-      answer: 'Answer 1'
-    },
-    {
-      question: 'Question 2',
-      answer: 'Answer 2'
-    }
-  ];
+  $scope.qas = [];
   // Set default ordering and qanda prompt
-  $scope.qanda = {
-    ordering: 'question',
-    newQuestion: '',
-    newAnswer: ''
-  };
+  $scope.newQuestion = '';
+  $scope.newAnswer = '';
+  $scope.ordering = 'question';
 
-  $scope.newQanda = function() {
-    // TODO: Check for empty question(show error), check for empty answer(add unanswered tag)
-    $scope.qas.push({
-      question: $scope.qanda.newQuestion,
-      answer: $scope.qanda.newAnswer
-    });
-
+  $scope.addQanda = function() {
+    var q = new Qanda($scope.newQuestion, $scope.newAnswer);
+    $scope.qas.push(q);
+    console.log(q);
     // Reset qanda prompt
-    $scope.qanda.newQuestion = '';
-    $scope.qanda.newAnswer = '';
+    $scope.newQuestion = '';
+    $scope.newAnswer = '';
   };
-
-  $scope.hoverIn = function() {
-    this.hoverEdit = true;
-  };
-  $scope.hoverOut = function() {
-    this.hoverEdit = false;
+  $scope.clearContents = function() {
+    $scope.newQuestion = '';
+    $scope.newAnswer = '';
   }
+  $scope.deleteQanda = function(qanda) {
+    console.log('here');
+    // I need to use a service later on, but this will suffice for now
+    var delIndex = $scope.qas.indexOf(qanda);
+    if (delIndex > -1) {
+      array.splice(delIndex, 1);
+    }
+    console.log(delIndex);
+  }
+
 }]);
+
+// Create Qanda model
+var Qanda = function(question, answer) {
+  this.question = question;
+  this.answer = answer;
+};
+Qanda.prototype.unanswered = function() {
+  return this.answer.length == 0;
+};
